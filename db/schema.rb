@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171001203416) do
+ActiveRecord::Schema.define(version: 20171001210321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 20171001203416) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.index ["waiting_party_id"], name: "index_tables_on_waiting_party_id", using: :btree
+  end
+
+  create_table "tables_activities", force: :cascade do |t|
+    t.integer  "table_id"
+    t.time     "time_sat"
+    t.time     "time_up"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["table_id"], name: "index_tables_activities_on_table_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -55,4 +64,5 @@ ActiveRecord::Schema.define(version: 20171001203416) do
 
   add_foreign_key "examples", "users"
   add_foreign_key "tables", "waiting_parties"
+  add_foreign_key "tables_activities", "tables"
 end

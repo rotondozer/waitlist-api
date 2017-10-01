@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  resources :tables_activities
   resources :tables
   resources :waiting_parties
   resources :examples, except: [:new, :edit]
