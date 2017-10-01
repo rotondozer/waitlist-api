@@ -1,8 +1,10 @@
 
 
-# WaitList
+# WaitList-API
 
-An app for organizing and prioritizing guests on a restaurant's waitlist by Nick Rotondo
+An app for organizing and prioritizing guests on a restaurant's waitlist.
+
+Full-Stack application by Nick Rotondo
 
 ## Dependencies
 
