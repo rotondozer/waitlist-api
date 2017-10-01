@@ -1,0 +1,2 @@
+class WaitingParty < ApplicationRecord
+end
