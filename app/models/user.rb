@@ -2,4 +2,6 @@
 class User < ApplicationRecord
   include Authentication
   has_many :examples
+  has_many :parties
+  has_many :tables
 end

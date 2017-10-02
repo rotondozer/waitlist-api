@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171001210321) do
+ActiveRecord::Schema.define(version: 20171002192102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,14 +23,25 @@ ActiveRecord::Schema.define(version: 20171001210321) do
     t.index ["user_id"], name: "index_examples_on_user_id", using: :btree
   end
 
+  create_table "parties", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "size"
+    t.time     "checked_in"
+    t.string   "est_wait"
+    t.string   "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_parties_on_user_id", using: :btree
+  end
+
   create_table "tables", force: :cascade do |t|
     t.integer  "max_seat"
     t.integer  "min_seat"
-    t.boolean  "available"
-    t.integer  "waiting_party_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["waiting_party_id"], name: "index_tables_on_waiting_party_id", using: :btree
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_tables_on_user_id", using: :btree
   end
 
   create_table "tables_activities", force: :cascade do |t|
@@ -39,6 +50,8 @@ ActiveRecord::Schema.define(version: 20171001210321) do
     t.time     "time_up"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "party_id"
+    t.index ["party_id"], name: "index_tables_activities_on_party_id", using: :btree
     t.index ["table_id"], name: "index_tables_activities_on_table_id", using: :btree
   end
 
@@ -52,17 +65,9 @@ ActiveRecord::Schema.define(version: 20171001210321) do
     t.index ["token"], name: "index_users_on_token", unique: true, using: :btree
   end
 
-  create_table "waiting_parties", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "size"
-    t.time     "checked_in"
-    t.string   "est_wait"
-    t.string   "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "examples", "users"
-  add_foreign_key "tables", "waiting_parties"
+  add_foreign_key "parties", "users"
+  add_foreign_key "tables", "users"
+  add_foreign_key "tables_activities", "parties"
   add_foreign_key "tables_activities", "tables"
 end
