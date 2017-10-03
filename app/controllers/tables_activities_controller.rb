@@ -19,7 +19,8 @@ class TablesActivitiesController < ApplicationController
   def index_available
     # time_sat is expected when the entry is created, so its presence is implied
     @all_available_tables = TablesActivity.where.not(time_up: nil)
-    @all_available_tables.sort { |a,b| a.time_sat <=> b.time_sat  }
+    # sort by latest time up
+    @all_available_tables.sort { |b,a| a.time_up <=> b.time_up }
     # TODO: limit the response to just the tables, not all table activity logs
     render json: @all_available_tables
   end
