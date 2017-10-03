@@ -2,6 +2,7 @@
 Rails.application.routes.draw do
   resources :parties
   resources :tables_activities
+  get '/tables_activities/currently_occupied' => 'tables_activities#index_occupied'
   resources :tables
   resources :examples, except: [:new, :edit]
   post '/sign-up' => 'users#signup'
