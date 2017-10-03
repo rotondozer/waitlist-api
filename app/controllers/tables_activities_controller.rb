@@ -19,7 +19,8 @@ class TablesActivitiesController < ApplicationController
   def show_table_activity
     # finds all activity of one table based on table_id
     @table_activity = TablesActivity.where(table_id: params[:table_number])
-    # sort by latest time up
+    # sort by latest time sat
+    # Can't sort by time up in case some are null
     @table_activity.sort { |b,a| a.time_sat <=> b.time_sat }
 
     render json: @table_activity
