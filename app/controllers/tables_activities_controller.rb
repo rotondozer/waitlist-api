@@ -17,11 +17,12 @@ class TablesActivitiesController < ApplicationController
 
   # GET all available tables
   # possible route: /tables_activities/all_available
-  def index_available_tables
-    @all_tables_activity = TablesActivity.all
-    # this should be sorting lowest to highest
-    # sorted earliest to latest
-    @all_tables_activity.sort { |a,b| a.time_sat <=> b.time_sat  }
+  def index_occupied_tables
+    # tables created will have at least a time_sat
+    # (time_up has to first exist to be nil)
+    @all_occupied_tables = TablesActivity.where(time_up: nil)
+
+    render json: @all_occupied_tables
   end
 
   # POST /tables_activities
