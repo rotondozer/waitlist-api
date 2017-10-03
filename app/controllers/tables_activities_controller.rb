@@ -18,7 +18,10 @@ class TablesActivitiesController < ApplicationController
   # GET all available tables
   # possible route: /tables_activities/all_available
   def index_available_tables
-    # @tables_activities = TablesActivity.where
+    @all_tables_activity = TablesActivity.all
+    # this should be sorting lowest to highest
+    # sorted earliest to latest
+    @all_tables_activity.sort { |a,b| a.time_sat <=> b.time_sat  }
   end
 
   # POST /tables_activities
