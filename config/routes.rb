@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  get '/tables_activities_all_occupied' => 'tables_activities#index_occupied'
   resources :parties
-  resources :tables_activities
-  get '/tables_activities/currently_occupied' => 'tables_activities#index_occupied'
+  # resources :tables_activities
   resources :tables
   resources :examples, except: [:new, :edit]
   post '/sign-up' => 'users#signup'

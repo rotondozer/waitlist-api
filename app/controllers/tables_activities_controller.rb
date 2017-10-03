@@ -21,9 +21,9 @@ class TablesActivitiesController < ApplicationController
     # tables created will have at least a time_sat
     # (time_up has to first exist to be nil)
     @all_occupied_tables = TablesActivity.where(time_up: nil)
-    # sorted earliest to latest
+    # # sorted earliest to latest
     @all_occupied_tables.sort { |a,b| a.time_sat <=> b.time_sat  }
-
+    #
     render json: @all_occupied_tables
   end
 
