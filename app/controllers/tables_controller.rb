@@ -8,6 +8,11 @@ class TablesController < ApplicationController
     render json: @tables
   end
 
+  # GET /tables/:party_size/match
+  def match_tables_to_party_size
+    puts ('HEREREREREREREREREREREREREREREEEERERE')
+  end
+
   # GET /tables/1
   def show
     render json: @table
