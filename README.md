@@ -6,7 +6,9 @@ An app for organizing and prioritizing guests on a restaurant's waitlist.
 
 Full-Stack application by Nick Rotondo
 
-## Dependencies
+## Objective ERD:
+[Imgur](https://i.imgur.com/BdBePdG.jpg)
+(relationships and columns subject to change)
 
 
 

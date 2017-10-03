@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TablesActivitiesController < ApplicationController
-  before_action :set_tables_activity, only: [:show, :update, :destroy]
+  before_action :set_tables_activity, only: %i[show update destroy]
 
   # GET /tables_activities
   def index
@@ -11,6 +13,12 @@ class TablesActivitiesController < ApplicationController
   # GET /tables_activities/1
   def show
     render json: @tables_activity
+  end
+
+  # GET all available tables
+  # possible route: /tables_activities/all_available
+  def index_available_tables
+    # @tables_activities = TablesActivity.where
   end
 
   # POST /tables_activities
@@ -39,13 +47,14 @@ class TablesActivitiesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tables_activity
-      @tables_activity = TablesActivity.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def tables_activity_params
-      params.require(:tables_activity).permit(:table_id, :time_sat, :time_up)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tables_activity
+    @tables_activity = TablesActivity.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def tables_activity_params
+    params.require(:tables_activity).permit(:table_id, :time_sat, :time_up)
+  end
 end
