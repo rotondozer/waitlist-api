@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TablesController < ApplicationController
-  before_action :set_table, only: [:show, :update, :destroy]
+  before_action :set_table, only: %i[show update destroy]
 
   # GET /tables
   def index
@@ -10,7 +12,12 @@ class TablesController < ApplicationController
 
   # GET /tables/:party_size/match
   def match_tables_to_party_size
-    puts ('HEREREREREREREREREREREREREREREEEERERE')
+    # sets the condition to between max and min table capacity
+    condition = 'max_seat >= :party_size AND min_seat <= :party_size'
+    # queries tables meeting the condition, passing party_size from params
+    @matching_tables = Table.where(condition, party_size: params[:party_size])
+
+    render json: @matching_tables
   end
 
   # GET /tables/1
@@ -44,13 +51,14 @@ class TablesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_table
-      @table = Table.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def table_params
-      params.require(:table).permit(:max_seat, :min_seat, :available, :waiting_party_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_table
+    @table = Table.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def table_params
+    params.require(:table).permit(:max_seat, :min_seat)
+  end
 end
