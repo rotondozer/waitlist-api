@@ -15,6 +15,16 @@ class TablesActivitiesController < ApplicationController
     render json: @tables_activity
   end
 
+  # GET all activity for one table
+  def show_table_activity
+    # finds all activity of one table based on table_id
+    @table_activity = TablesActivity.where(table_id: params[:table_number])
+    # sort by latest time up
+    @table_activity.sort { |b,a| a.time_sat <=> b.time_sat }
+
+    render json: @table_activity
+  end
+
   # GET all available tables
   def index_available
     # time_sat is expected when the entry is created, so its presence is implied
@@ -70,6 +80,6 @@ class TablesActivitiesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def tables_activity_params
-    params.require(:tables_activity).permit(:table_id, :time_sat, :time_up)
+    params.require(:tables_activity).permit(:table_id, :time_sat, :time_up, :party_id)
   end
 end
