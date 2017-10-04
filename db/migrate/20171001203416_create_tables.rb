@@ -4,7 +4,7 @@ class CreateTables < ActiveRecord::Migration[5.0]
       t.integer :max_seat
       t.integer :min_seat
       t.boolean :available
-      t.references :waiting_party, foreign_key: true
+      t.references :parties, foreign_key: true
 
       t.timestamps
     end
