@@ -27,7 +27,6 @@ class TablesController < ApplicationController
 
   # POST /tables
   def create
-    binding.pry
     @table = Table.new(table_params)
 
     if @table.save
