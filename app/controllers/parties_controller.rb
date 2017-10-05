@@ -46,6 +46,6 @@ class PartiesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def party_params
-      params.fetch(:party, {})
+      params.require(:party).permit(:name, :size, :est_wait, :notes, :user_id, :checked_in)
     end
 end
