@@ -1,4 +1,4 @@
-class PartiesController < ApplicationController
+class PartiesController < ProtectedController
   before_action :set_party, only: [:show, :update, :destroy]
 
   # GET /parties
