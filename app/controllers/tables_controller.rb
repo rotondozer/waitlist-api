@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TablesController < ApplicationController
+class TablesController < ProtectedController
   before_action :set_table, only: %i[show update destroy]
 
   # GET /tables
