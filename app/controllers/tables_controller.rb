@@ -27,6 +27,7 @@ class TablesController < ApplicationController
 
   # POST /tables
   def create
+    binding.pry
     @table = Table.new(table_params)
 
     if @table.save
@@ -59,6 +60,6 @@ class TablesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def table_params
-    params.require(:table).permit(:max_seat, :min_seat)
+    params.require(:table).permit(:max_seat, :min_seat, :user_id)
   end
 end
