@@ -4,7 +4,7 @@ class PartySerializer < ActiveModel::Serializer
   belongs_to :user
 
   def checked_in
-    @time = object.checked_in.strftime("%I:%M")
+    @time = object.checked_in.strftime('%I:%M') unless object.checked_in.nil?
     @time
   end
 end

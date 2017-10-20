@@ -6,7 +6,6 @@ class PartiesController < ProtectedController
     @parties = Party.all
 
     render json: @parties
-
   end
 
   # GET /parties/1
