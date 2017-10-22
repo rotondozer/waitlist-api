@@ -30,10 +30,25 @@ class TablesActivitiesController < ApplicationController
   def index_available
     # time_sat is expected when the entry is created, so its presence is implied
     @all_available_tables = TablesActivity.where.not(time_up: nil)
+    # binding.pry
+    # @filtered_tables = @all_available_tables.select(:id, :table_id, :time_sat, :time_up, :party_id).distinct
+    @table_ids = @all_available_tables.map { |t_hash| t_hash[:table_id] }
+    @table_ids.uniq!
+
     # sort by latest time up
     @all_available_tables.sort { |b,a| a.time_up <=> b.time_up }
+    @tables = []
+    for id in @table_ids
+      for t_hash in @all_available_tables
+        if ((id == t_hash[:table_id]) && (@tables.length < @table_ids.length))
+          @tables << t_hash
+        end
+      end
+    end
+
+
     # TODO: limit the response to just the tables, not all table activity logs
-    render json: @all_available_tables
+    render json: @tables
   end
 
   # GET all occupied tables, sorted by earliest time sat
