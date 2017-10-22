@@ -30,8 +30,9 @@ class TablesActivitiesController < ApplicationController
   def index_available
     # time_sat is expected when the entry is created, so its presence is implied
     @all_available_tables = TablesActivity.where.not(time_up: nil)
-    # binding.pry
-    # @filtered_tables = @all_available_tables.select(:id, :table_id, :time_sat, :time_up, :party_id).distinct
+    # TablesActivity will have multiple instances of tables
+    # the same table will have time_up: nil,
+    # but other occurances where time_up has value
     @table_ids = @all_available_tables.map { |t_hash| t_hash[:table_id] }
     @table_ids.uniq!
 
