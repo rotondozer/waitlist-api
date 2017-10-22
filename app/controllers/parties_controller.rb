@@ -5,7 +5,14 @@ class PartiesController < ProtectedController
   def index
     @parties = Party.all
 
-    render json: @parties
+    @parties_waiting = []
+    for party in @parties
+      if party.tables_activity.nil?
+        @parties_waiting << party
+      end
+    end
+
+    render json: @parties_waiting
   end
 
   # GET /parties/1
