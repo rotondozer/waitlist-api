@@ -52,7 +52,6 @@ class TablesActivitiesController < ApplicationController
     end
 
     @all_occupied_tables = @user.tables_activities.where(time_up: nil)
-    binding.pry
     @occupied_table_ids = @all_occupied_tables.map { |t_hash| t_hash[:table_id] }
     @occupied_table_ids.uniq!
 
