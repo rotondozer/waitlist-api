@@ -1,9 +1,11 @@
 class PartiesController < ProtectedController
   before_action :set_party, only: [:show, :update, :destroy]
 
-  # GET /parties
+  # GET /:user_id/parties
   def index
+
     @parties = Party.all
+    # @parties = Party.all.where(user_id: params[:user_id])
 
     @parties_waiting = []
     for party in @parties

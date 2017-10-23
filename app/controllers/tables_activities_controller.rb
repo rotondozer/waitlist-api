@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TablesActivitiesController < ApplicationController
+class TablesActivitiesController < ProtectedController
   before_action :set_tables_activity, only: %i[show update destroy]
 
   # GET /tables_activities
