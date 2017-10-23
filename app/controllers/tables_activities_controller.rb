@@ -37,7 +37,7 @@ class TablesActivitiesController < ApplicationController
     @table_ids.uniq!
 
     # sort by latest time up
-    @all_available_tables.sort { |b,a| a.time_up <=> b.time_up }
+    @all_available_tables.sort { |b, a| a.time_up <=> b.time_up }
     @tables = []
     for id in @table_ids
       for t_hash in @all_available_tables
@@ -47,6 +47,17 @@ class TablesActivitiesController < ApplicationController
       end
     end
 
+    @all_occupied_tables = TablesActivity.where(time_up: nil)
+    @occupied_table_ids = @all_occupied_tables.map { |t_hash| t_hash[:table_id] }
+    @occupied_table_ids.uniq!
+
+    for id in @occupied_table_ids
+      for t_hash in @tables
+        if id == t_hash[:table_id]
+          @tables.delete(t_hash)
+        end
+      end
+    end
 
     # TODO: limit the response to just the tables, not all table activity logs
     render json: @tables
@@ -58,7 +69,8 @@ class TablesActivitiesController < ApplicationController
     # (time_up has to first exist to be nil)
     @all_occupied_tables = TablesActivity.where(time_up: nil)
     # # sorted earliest to latest
-    @all_occupied_tables.sort { |a,b| a.time_sat <=> b.time_sat  }
+    # Replace with Tables.Activity.order(:time_sat)?
+    @all_occupied_tables.sort { |a, b| a.time_sat <=> b.time_sat  }
     # TODO: limit the response to just the tables, not all table activity logs
     render json: @all_occupied_tables
   end
