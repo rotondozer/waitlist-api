@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TablesActivitiesController < ProtectedController
+class TablesActivitiesController < ApplicationController
   before_action :set_tables_activity, only: %i[show update destroy]
   before_action :set_user, except: [:update, :destroy, :show]
 
@@ -43,15 +43,16 @@ class TablesActivitiesController < ProtectedController
     # sort by latest time up
     @all_available_tables.sort { |b, a| a.time_up <=> b.time_up }
     @tables = []
-    for id in @table_ids
-      for t_hash in @all_available_tables
-        if ((id == t_hash[:table_id]) && (@tables.length < @table_ids.length))
-          @tables << t_hash
+    for a_id in @table_ids
+      for a_t_hash in @all_available_tables
+        if ((a_id == a_t_hash[:table_id]) && (@tables.count { |ta| ta[:table_id] == a_t_hash[:table_id]} == 0))
+          @tables << a_t_hash
         end
       end
     end
 
     @all_occupied_tables = @user.tables_activities.where(time_up: nil)
+    binding.pry
     @occupied_table_ids = @all_occupied_tables.map { |t_hash| t_hash[:table_id] }
     @occupied_table_ids.uniq!
 
@@ -69,7 +70,7 @@ class TablesActivitiesController < ProtectedController
 
   # GET all occupied tables, sorted by earliest time sat
   def index_occupied
-    # binding.pry
+    #
     # tables created will have at least a time_sat
     # (time_up has to first exist to be nil)
     @all_occupied_tables = @user.tables_activities.where(time_up: nil)
@@ -94,6 +95,7 @@ class TablesActivitiesController < ProtectedController
 
   # PATCH/PUT /tables_activities/1
   def update
+
     if @tables_activity.update(tables_activity_params)
       render json: @tables_activity
     else
@@ -119,6 +121,6 @@ class TablesActivitiesController < ProtectedController
 
   # Only allow a trusted parameter "white list" through.
   def tables_activity_params
-    params.require(:tables_activity).permit(:table_id, :time_sat, :time_up, :party_id)
+    params.require(:tables_activity).permit(:table_id, :time_sat, :time_up, :party_id, :user_id)
   end
 end
