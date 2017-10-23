@@ -16,7 +16,7 @@ class TablesController < ProtectedController
     # sets the condition to between max and min table capacity
     condition = 'max_seat >= :party_size AND min_seat <= :party_size'
     # queries tables meeting the condition, passing party_size from params
-    @matching_tables = Table.where(condition, party_size: params[:party_size])
+    @matching_tables = @user.tables.where(condition, party_size: params[:party_size])
 
     render json: @matching_tables
   end

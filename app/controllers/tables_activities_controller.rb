@@ -75,8 +75,8 @@ class TablesActivitiesController < ProtectedController
     @all_occupied_tables = @user.tables_activities.where(time_up: nil)
     # # sorted earliest to latest
     # Replace with Tables.Activity.order(:time_sat)?
-    # @all_occupied_tables.sort { |a, b| a.time_sat <=> b.time_sat  }
-    binding.pry
+    # sort will not work if time_up is empty
+    @all_occupied_tables.sort { |a, b| a.time_sat <=> b.time_sat  }
     # TODO: limit the response to just the tables, not all table activity logs
     render json: @all_occupied_tables
   end
