@@ -2,7 +2,7 @@
 
 class TablesController < ProtectedController
   before_action :set_table, only: %i[show update destroy]
-  before_action :set_user
+  before_action :set_user, except: [:update, :destroy]
 
   # GET /tables
   def index
@@ -39,6 +39,7 @@ class TablesController < ProtectedController
 
   # PATCH/PUT /tables/1
   def update
+    binding.pry
     if @table.update(table_params)
       render json: @table
     else

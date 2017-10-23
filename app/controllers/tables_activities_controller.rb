@@ -6,8 +6,9 @@ class TablesActivitiesController < ProtectedController
 
   # GET /tables_activities
   def index
-    @tables_activities = TablesActivity.all.where(user_id: @user)
-    binding.pry
+    # @tables_activities = TablesActivity.all
+    @tables_activities = @user.tables_activities
+
     render json: @tables_activities
   end
 
@@ -30,7 +31,9 @@ class TablesActivitiesController < ProtectedController
   # GET all available tables
   def index_available
     # time_sat is expected when the entry is created, so its presence is implied
-    @all_available_tables = TablesActivity.where.not(time_up: nil)
+    @all_available_tables = @user.tables_activities.where.not(time_up: nil)
+    # @all_available_tables = TablesActivity.where.not(time_up: nil)
+    # binding.pry
     # TablesActivity will have multiple instances of tables
     # the same table will have time_up: nil,
     # but other occurances where time_up has value
@@ -48,7 +51,7 @@ class TablesActivitiesController < ProtectedController
       end
     end
 
-    @all_occupied_tables = TablesActivity.where(time_up: nil)
+    @all_occupied_tables = @user.tables_activities.where(time_up: nil)
     @occupied_table_ids = @all_occupied_tables.map { |t_hash| t_hash[:table_id] }
     @occupied_table_ids.uniq!
 
@@ -68,7 +71,7 @@ class TablesActivitiesController < ProtectedController
   def index_occupied
     # tables created will have at least a time_sat
     # (time_up has to first exist to be nil)
-    @all_occupied_tables = TablesActivity.where(time_up: nil)
+    @all_occupied_tables = @user.tables_activities.where(time_up: nil)
     # # sorted earliest to latest
     # Replace with Tables.Activity.order(:time_sat)?
     @all_occupied_tables.sort { |a, b| a.time_sat <=> b.time_sat  }

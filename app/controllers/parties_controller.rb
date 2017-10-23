@@ -45,6 +45,7 @@ class PartiesController < ProtectedController
 
   # DELETE /parties/1
   def destroy
+    binding.pry
     @party.destroy
   end
 
