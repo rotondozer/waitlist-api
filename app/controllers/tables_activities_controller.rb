@@ -2,7 +2,7 @@
 
 class TablesActivitiesController < ProtectedController
   before_action :set_tables_activity, only: %i[show update destroy]
-  before_action :set_user
+  before_action :set_user, except: [:update, :destroy, :show]
 
   # GET /tables_activities
   def index
@@ -33,7 +33,7 @@ class TablesActivitiesController < ProtectedController
     # time_sat is expected when the entry is created, so its presence is implied
     @all_available_tables = @user.tables_activities.where.not(time_up: nil)
     # @all_available_tables = TablesActivity.where.not(time_up: nil)
-    # binding.pry
+    #
     # TablesActivity will have multiple instances of tables
     # the same table will have time_up: nil,
     # but other occurances where time_up has value
@@ -69,12 +69,14 @@ class TablesActivitiesController < ProtectedController
 
   # GET all occupied tables, sorted by earliest time sat
   def index_occupied
+    # binding.pry
     # tables created will have at least a time_sat
     # (time_up has to first exist to be nil)
     @all_occupied_tables = @user.tables_activities.where(time_up: nil)
     # # sorted earliest to latest
     # Replace with Tables.Activity.order(:time_sat)?
-    @all_occupied_tables.sort { |a, b| a.time_sat <=> b.time_sat  }
+    # @all_occupied_tables.sort { |a, b| a.time_sat <=> b.time_sat  }
+    binding.pry
     # TODO: limit the response to just the tables, not all table activity logs
     render json: @all_occupied_tables
   end

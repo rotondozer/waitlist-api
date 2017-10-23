@@ -1,6 +1,6 @@
 class PartiesController < ProtectedController
   before_action :set_party, only: [:show, :update, :destroy]
-  before_action :set_user
+  before_action :set_user, except: [:update, :destroy, :show]
 
   # GET /:user_id/parties
   def index
@@ -45,7 +45,7 @@ class PartiesController < ProtectedController
 
   # DELETE /parties/1
   def destroy
-    binding.pry
+
     @party.destroy
   end
 
