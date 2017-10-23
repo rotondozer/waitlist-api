@@ -1,10 +1,11 @@
 class PartiesController < ProtectedController
   before_action :set_party, only: [:show, :update, :destroy]
+  before_action :set_user
 
   # GET /:user_id/parties
   def index
 
-    @parties = Party.all
+    @parties = Party.all.where(user_id: @user)
     # @parties = Party.all.where(user_id: params[:user_id])
 
     @parties_waiting = []
@@ -51,6 +52,10 @@ class PartiesController < ProtectedController
     # Use callbacks to share common setup or constraints between actions.
     def set_party
       @party = Party.find(params[:id])
+    end
+
+    def set_user
+      @user = User.find(params[:user_id])
     end
 
     # Only allow a trusted parameter "white list" through.

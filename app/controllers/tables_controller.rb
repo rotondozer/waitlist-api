@@ -2,10 +2,11 @@
 
 class TablesController < ProtectedController
   before_action :set_table, only: %i[show update destroy]
+  before_action :set_user
 
   # GET /tables
   def index
-    @tables = Table.all
+    @tables = Table.all.where(user_id: @user)
 
     render json: @tables
   end
@@ -55,6 +56,10 @@ class TablesController < ProtectedController
   # Use callbacks to share common setup or constraints between actions.
   def set_table
     @table = Table.find(params[:id])
+  end
+
+  def set_user
+    @user = User.find(params[:user_id])
   end
 
   # Only allow a trusted parameter "white list" through.
