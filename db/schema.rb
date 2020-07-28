@@ -38,9 +38,11 @@ ActiveRecord::Schema.define(version: 20171002192102) do
   create_table "tables", force: :cascade do |t|
     t.integer  "max_seat"
     t.integer  "min_seat"
+    t.integer  "parties_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
+    t.index ["parties_id"], name: "index_tables_on_parties_id", using: :btree
     t.index ["user_id"], name: "index_tables_on_user_id", using: :btree
   end
 
@@ -67,6 +69,7 @@ ActiveRecord::Schema.define(version: 20171002192102) do
 
   add_foreign_key "examples", "users"
   add_foreign_key "parties", "users"
+  add_foreign_key "tables", "parties", column: "parties_id"
   add_foreign_key "tables", "users"
   add_foreign_key "tables_activities", "parties"
   add_foreign_key "tables_activities", "tables"
